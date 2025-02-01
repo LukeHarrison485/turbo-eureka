@@ -5,8 +5,8 @@
 #include <cglm/cglm.h>
 #include "shader.h"
 #include "camera.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+
+#include "perlin.h"
 
 float vertices[] = {
     // Positions          
@@ -77,6 +77,7 @@ int main(void) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 16);
+	createPerlinNoise(32, 256, 256, 1);
 	GLFWwindow* window = glfwCreateWindow(SCREENWIDTH, SCREENHEIGHT, "YEAH!!!!!!!!! BLOCK GAME, THIS IS THE MOST ORGINIAL IDEA I HAVE EVER HAD!!!!!!!!!!!!!", NULL, NULL);
 	if (window == NULL)
 	{
@@ -96,9 +97,8 @@ int main(void) {
 	unsigned int VBO = 0;
 	unsigned int EBO = 0;
 	generateBuffers(&VBO, &VAO, &EBO);
-	Shader basicShader = createShader("shader/basic.vs", "shader/basic.fs");
-	
-	glEnable(GL_DEPTH_TEST); 
+	Shader basicShader = createShader("shader/basic.vs", "shader/basic.fs");  
+
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
 
 	while (!glfwWindowShouldClose(window)) {
@@ -128,7 +128,7 @@ int main(void) {
 
 		mat4 projection;
 		glm_mat4_identity(projection);
-		glm_perspective(45.0f, (float)SCREENWIDTH / (float)SCREENHEIGHT, 0.1f, 100.0f, projection);
+		glm_perspective(glm_rad(90.0f), (float)SCREENWIDTH / (float)SCREENHEIGHT, 0.1f, 100.0f, projection);
 
 		setUniformMat4(basicShader.shaderProgram, "view", view);
 		setUniformMat4(basicShader.shaderProgram, "projection", projection);
@@ -137,15 +137,13 @@ int main(void) {
 		for(int i = 0; i < 4; i++) {
 			glm_mat4_identity(model);
 			glm_translate(model, cubePositions[i]);
+			if(i == 2) {
+				glm_scale(model, vec3{.5, .5, .5});
+			}
 			setUniformMat4(basicShader.shaderProgram, "model", model);
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		}
 
-		
-		
-		
-
-		
 		glfwSwapInterval(1);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
