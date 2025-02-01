@@ -4,13 +4,22 @@
 #include <stdlib.h>
 #include <cglm/cglm.h>
 
-void setUniformFloat(unsigned int shaderProgram, const char* location, float val) {
+void setFloat(unsigned int shaderProgram, const char* location, float val) {
     int uniformLocation = glGetUniformLocation(shaderProgram, location);
     if (uniformLocation == -1) {
         fprintf(stderr, "Error: Uniform '%s' not found in shader program.\n", location);
         return;
     }
 	glUniform1f(uniformLocation, val);
+}
+
+void setVec3(unsigned int shaderProgram, const char* location, vec3 val) {
+    int uniformLocation = glGetUniformLocation(shaderProgram, location);
+    if (uniformLocation == -1) {
+        fprintf(stderr, "Error: Uniform '%s' not found in shader program.\n", location);
+        return;
+    }
+	glUniform3f(uniformLocation, val[0], val[1], val[2]);
 }
 
 void setUniformMat4(unsigned int shaderProgram, const char* location, mat4 val) {
@@ -24,7 +33,7 @@ void setUniformMat4(unsigned int shaderProgram, const char* location, mat4 val) 
 
 typedef struct Shader {
     unsigned int shaderProgram;
-    void (*setUniformFloat)(unsigned int, const char*, float);
+    void (*setFloat)(unsigned int, const char*, float);
 	void (*setUniformMat4)(unsigned int, const char*, mat4*);
 } Shader;
 
@@ -123,7 +132,7 @@ Shader createShader(const char* vertexSource, const char* fragmentSource) {
     glDeleteShader(fragmentShader);
 
     // Initialize the function pointer
-    shader.setUniformFloat = setUniformFloat;
+    shader.setFloat = setFloat;
 
     return shader;
 }

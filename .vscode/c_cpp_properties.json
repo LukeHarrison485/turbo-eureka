@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/msys64/mingw64/include",
-                "${vcpkgRoot}/x64-windows/include",
-                "${workspaceFolder}/include"
+                "C:/msys64/mingw64/include",             // MSYS2 include directory
+                "${vcpkgRoot}/x64-windows/include",       // vcpkg include (if using)
+                "${workspaceFolder}/include"              // Your local include directory
             ],
             "defines": [
                 "_DEBUG",
@@ -14,10 +14,10 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22621.0",
-            "compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64"
+            "compilerPath": "C:\\msys64\\mingw64\\bin\\g++.exe",   // MSYS2 g++ compiler path
+            "cStandard": "c17",  // Set C standard to C17
+            "cppStandard": "c++17",  // Set C++ standard to C++17
+            "intelliSenseMode": "windows-gcc-x64"  // Use GCC IntelliSense mode for Windows
         }
     ],
     "version": 4
