@@ -6,28 +6,16 @@
 
 void setFloat(unsigned int shaderProgram, const char* location, float val) {
     int uniformLocation = glGetUniformLocation(shaderProgram, location);
-    if (uniformLocation == -1) {
-        fprintf(stderr, "Error: Uniform '%s' not found in shader program.\n", location);
-        return;
-    }
 	glUniform1f(uniformLocation, val);
 }
 
 void setVec3(unsigned int shaderProgram, const char* location, vec3 val) {
     int uniformLocation = glGetUniformLocation(shaderProgram, location);
-    if (uniformLocation == -1) {
-        fprintf(stderr, "Error: Uniform '%s' not found in shader program.\n", location);
-        return;
-    }
 	glUniform3f(uniformLocation, val[0], val[1], val[2]);
 }
 
 void setUniformMat4(unsigned int shaderProgram, const char* location, mat4 val) {
 	int uniformLocation = glGetUniformLocation(shaderProgram, location);
-    if (uniformLocation == -1) {
-        fprintf(stderr, "Error: Uniform '%s' not found in shader program.\n", location);
-        return;
-    }
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, (float*)val);
 }
 

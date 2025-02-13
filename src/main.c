@@ -8,57 +8,19 @@
 #include <string.h>
 #include "block.h"
 
-float vertices[] = {
-    // positions          // normals             // texture coords
-    // Back face
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   0.0f, 0.0f, // Bottom-left
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   1.0f, 0.0f, // Bottom-right
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   1.0f, 1.0f, // Top-right
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   1.0f, 1.0f, // Top-right
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   0.0f, 1.0f, // Top-left
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,   0.0f, 0.0f, // Bottom-left
-    // Front face
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   0.0f, 0.0f, // Bottom-left
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   1.0f, 1.0f, // Top-right
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   1.0f, 0.0f, // Bottom-right
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   1.0f, 1.0f, // Top-right
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   0.0f, 0.0f, // Bottom-left
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,   0.0f, 1.0f, // Top-left
-    // Left face
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // Top-right
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // Bottom-left
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,   1.0f, 1.0f, // Top-left
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // Bottom-left
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // Top-right
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, // Bottom-right
-    // Right face
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // Top-left
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,   1.0f, 1.0f, // Top-right
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // Bottom-right
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // Bottom-right
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,   0.0f, 0.0f, // Bottom-left
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // Top-left
-    // Bottom face
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,   0.0f, 1.0f, // Top-right
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,   1.0f, 0.0f, // Bottom-left
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,   1.0f, 1.0f, // Top-left
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,   1.0f, 0.0f, // Bottom-left
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,   0.0f, 1.0f, // Top-right
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,   0.0f, 0.0f, // Bottom-right
-    // Top face
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,   0.0f, 1.0f, // Top-left
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,   1.0f, 1.0f, // Top-right
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,   1.0f, 0.0f, // Bottom-right
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,   1.0f, 0.0f, // Bottom-right
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,   0.0f, 0.0f, // Bottom-left
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,   0.0f, 1.0f  // Top-left
-};
+typedef struct 
+{
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	float constant;
+	float linear;
+	float quadratic;
+	vec3 position;
+} pointLight;
 
-vec3 pointLightPositions[] = {
-	{1.0, 3.0, 0.0},
-	{1.3, 4.0, 3.0}
-};
 
+pointLight pointLightArr[100];
 Camera cam;
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -70,32 +32,32 @@ unsigned int createShaderProgram(const char* vertexSource, const char* fragmentS
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void setFullscreen(GLFWwindow* window);
-void createPointLight(int index, unsigned int shaderProgram);
+void createPointLight(vec3 pos, vec3 amb, vec3 diff, vec3 spec, float constant, float lin, float quad);
+void createDirLight(unsigned int shaderProgram, vec3 dir, vec3 ambient, vec3 spec, vec3 diff);
+void pointLightShaderPassthrough(unsigned int shaderProgram);
 
 int isFullscreen = 0;
 int windowedWidth = 800; 
 int windowedHeight = 600; 
 int windowedPosX = 0;
 int windowedPosY = 0;
+int numOfPointLights = 0;
+int wireFrame = 0;
 
 float lastX;
 float lastY;
 
 int main(void) {
-	cam = createCamera((vec3){0.0f, 0.0f, 0.0f} , 3.0f, 45.0f, 0.1f);
-	blocks = (block*)malloc(1000 * 1000 * sizeof(block));
-	
-	textures[DIRT] = loadTexture("dirt.png");
+	cam = createCamera((vec3){0.0f, 50.0f, 0.0f} , 12.0f, 45.0f, 0.1f);
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 16);
-	createPerlinNoise(32, 256, 256, 1);
 	lastX = (float)windowedWidth / 2.0f;
 	lastY = (float)windowedHeight / 2.0f;
-	GLFWwindow* window = glfwCreateWindow((isFullscreen) ? 1920 : windowedWidth, (isFullscreen) ? 1080 : windowedHeight, "YEAH!!!!!!!!! BLOCK GAME, THIS IS THE MOST ORGINIAL IDEA I HAVE EVER HAD!!!!!!!!!!!!!", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(windowedWidth, windowedHeight, "YEAH!!!!!!!!! BLOCK GAME, THIS IS THE MOST ORGINIAL IDEA I HAVE EVER HAD!!!!!!!!!!!!!", NULL, NULL);
 	if(isFullscreen) {
 		setFullscreen(window);
 	}
@@ -115,13 +77,63 @@ int main(void) {
 	}
 	unsigned int VAO = 0;
 	unsigned int VBO = 0;
+	unsigned int InstanceBuffer;
 	generateBuffers(&VBO, &VAO);
+	
 	Shader basicShader = createShader("shader/basic.vs", "shader/basic.fs");  
 
-	createChunk(64, 1);
+	block* blocks = createChunk(300, 1);
+	printf("Number of cubes generated: %d\n", numOfBlocks);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
 	glfwSetKeyCallback(window, keyCallback);
+
+	textures[DIRT] = loadTexture("dirt.png");
+	glUniform1i(glGetUniformLocation(basicShader.shaderProgram, "material.diffuse"), textures[DIRT]);
+	glUniform1i(glGetUniformLocation(basicShader.shaderProgram, "material.specular"), textures[DIRT]);
+	
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
+	
+
+	mat4* models = (mat4*)malloc(numOfBlocks * sizeof(mat4));
+
+	for(int i = 0; i < numOfBlocks; i++) {
+		mat4 model;
+		glm_mat4_identity(model);
+		glm_translate(model, blocks[i].pos);
+		glm_mat4_copy(model, models[i]);
+	}
+	
+	unsigned int instanceBuffer;
+	glGenBuffers(1, &instanceBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
+	glBufferData(GL_ARRAY_BUFFER, numOfBlocks * sizeof(mat4), models, GL_STATIC_DRAW);
+
+	// Ensure the VAO is bound before setting attributes
+	glBindVertexArray(VAO);
+
+	// Update the vertex attributes for the instance buffer (if not already done in generateBuffers)
+	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
+	// Mat4 is split into 4 vec4 attributes
+	GLsizei vec4Size = sizeof(vec4);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(uintptr_t)(1 * vec4Size));
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(uintptr_t)(2 * vec4Size));
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(uintptr_t)(3 * vec4Size));
+
+	// Set divisors for instanced attributes
+	glVertexAttribDivisor(3, 1);
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+	glVertexAttribDivisor(6, 1);
+
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
@@ -130,18 +142,20 @@ int main(void) {
 
 		processInput(window);
 		processCameraInput(window, &cam, deltaTime);
-		//Drawing code should go here:
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		
+		
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		float time = glfwGetTime();
-		basicShader.setFloat(basicShader.shaderProgram, "time", time);
 
 		glUseProgram(basicShader.shaderProgram);
 
-		mat4 model;
-		glm_mat4_identity(model);
-		glm_rotate(model, -1.0f * glfwGetTime(), (vec3){1.0f, 0.0f, 0.5f});
+		// Set view position (camera position)
+		glUniform3fv(glGetUniformLocation(basicShader.shaderProgram, "viewPos"), 1, cam.cameraPos);
+		createDirLight(basicShader.shaderProgram, (vec3){-0.2f, -1.0f, -0.3f}, (vec3){0.7f, 0.7f, 0.7f}, (vec3){0.4f, 0.4f, 0.4f}, (vec3){0.5f, 0.5f, 0.5f});
+		glUniform1f(glGetUniformLocation(basicShader.shaderProgram, "material.shininess"), 1.0f);
+		glUniform1i(glGetUniformLocation(basicShader.shaderProgram, "numPointLights"), numOfPointLights);
+		pointLightShaderPassthrough(basicShader.shaderProgram);
+		glUniform3fv(glGetUniformLocation(basicShader.shaderProgram, "planetCenter"), 1, (vec3){50.0f, 0.0f, 50.0f});
 
 		mat4 view;
 		glm_mat4_identity(view);
@@ -152,30 +166,22 @@ int main(void) {
 			// Update projection matrix (if needed)
 			mat4 projection;
 			glm_mat4_identity(projection);
-			glm_perspective(glm_rad(90.0f), (float)1920 / (float)1080, 0.1f, 100.0f, projection);
+			glm_perspective(glm_rad(90.0f), (float)1920 / (float)1080, 0.1f, 1000.0f, projection);
 			setUniformMat4(basicShader.shaderProgram, "projection", projection);
 		}
 		else {
 			mat4 projection;
 			glm_mat4_identity(projection);
-			glm_perspective(glm_rad(90.0f), (float)windowedWidth / (float)windowedHeight, 0.1f, 100.0f, projection);
+			glm_perspective(glm_rad(90.0f), (float)windowedWidth / (float)windowedHeight, 0.1f, 1000.0f, projection);
 			setUniformMat4(basicShader.shaderProgram, "projection", projection);
 		}
 
 		setUniformMat4(basicShader.shaderProgram, "view", view);
 
-		for(int i = 0; i < sizeof(pointLightPositions) / sizeof(vec3); i++) {
-			//createPointLight(i, basicShader.shaderProgram);
-		}
-		
 		glBindVertexArray(VAO);
-		for(int i = 0; i < numOfBlocks; i++) {
-			glm_mat4_identity(model);
-			glm_translate(model, blocks[i].pos);
-			setUniformMat4(basicShader.shaderProgram, "model", model);
-			glBindTexture(GL_TEXTURE_2D, textures[DIRT]);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		
+		glDrawArraysInstanced(GL_TRIANGLES, 0, 36, numOfBlocks);
+		
 
 		glfwSwapInterval(1);
 		glfwSwapBuffers(window);
@@ -184,6 +190,7 @@ int main(void) {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteProgram(basicShader.shaderProgram);
+	free(blocks);
 
 	glfwTerminate();
 	return 0;
@@ -210,6 +217,20 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	if (key == GLFW_KEY_F11 && action == GLFW_RELEASE) {
 		setFullscreen(window);
 	}
+	if (key == GLFW_KEY_E && action == GLFW_RELEASE) {
+		createPointLight(cam.cameraPos, (vec3){1.0f, 1.0f, 1.0f}, (vec3){0.8f, 0.8f, 0.8f}, (vec3){1.0f, 1.0f, 1.0f}, 1.0f, 0.09f, 0.032f);
+	}
+	if (key == GLFW_KEY_G && action == GLFW_RELEASE) {
+		if(wireFrame) {
+			wireFrame = 0;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else {
+			wireFrame = 1;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+	}
+	
 }
 
 void processInput(GLFWwindow* window)
@@ -257,30 +278,53 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	
 }
 
-void createPointLight(int index, unsigned int shaderProgram) {
-    char baseName[50];
-	snprintf(baseName, sizeof(baseName), "pointLights[%d]", index);
-	
-	char fullName[100];
-
-	snprintf(fullName, sizeof(fullName), "%s.position", baseName);
-	setVec3(shaderProgram, fullName, pointLightPositions[index]);
-
-	snprintf(fullName, sizeof(fullName), "%s.ambient", baseName);
-	setVec3(shaderProgram, fullName, (vec3){0.3f, 0.24f, 0.14f});
-
-	snprintf(fullName, sizeof(fullName), "%s.diffuse", baseName);
-	setVec3(shaderProgram, fullName, (vec3){0.7f, 0.5f, 0.3f});
-
-	snprintf(fullName, sizeof(fullName), "%s.specular", baseName);
-	setVec3(shaderProgram, fullName, (vec3){1.0f, 0.9f, 0.8f});
-
-	snprintf(fullName, sizeof(fullName), "%s.constant", baseName);
-	setFloat(shaderProgram, fullName, 0.18f);
-
-	snprintf(fullName, sizeof(fullName), "%s.linear", baseName);
-	setFloat(shaderProgram, fullName, 1.0f);
-
-	snprintf(fullName, sizeof(fullName), "%s.quadratic", baseName);
-	setFloat(shaderProgram, fullName, 0.12f);
+void createPointLight(vec3 pos, vec3 amb, vec3 diff, vec3 spec, float constant, float lin, float quad) {
+	glm_vec3_copy(pos, pointLightArr[numOfPointLights].position);
+	glm_vec3_copy(amb, pointLightArr[numOfPointLights].ambient);
+	glm_vec3_copy(diff, pointLightArr[numOfPointLights].diffuse);
+	glm_vec3_copy(spec, pointLightArr[numOfPointLights].specular);
+	pointLightArr[numOfPointLights].constant = constant;
+	pointLightArr[numOfPointLights].linear = lin;
+	pointLightArr[numOfPointLights].quadratic = quad;
+	numOfPointLights++;
 }
+
+void createDirLight(unsigned int shaderProgram, vec3 dir, vec3 ambient, vec3 spec, vec3 diff) {
+	glUniform3fv(glGetUniformLocation(shaderProgram, "dirLight.direction"), 1, dir);
+	glUniform3fv(glGetUniformLocation(shaderProgram, "dirLight.ambient"), 1, ambient);
+	glUniform3fv(glGetUniformLocation(shaderProgram, "dirLight.specular"), 1, spec);
+	glUniform3fv(glGetUniformLocation(shaderProgram, "dirLight.diffuse"), 1, diff);
+}
+
+void pointLightShaderPassthrough(unsigned int shaderProgram) {
+	char baseName[50];
+	char fullName[100];
+	for(int i = 0; i < numOfPointLights; i++) {
+		snprintf(baseName, sizeof(baseName), "pointLights[%d]", i);
+
+		snprintf(fullName, sizeof(fullName), "%s.position", baseName);
+		setVec3(shaderProgram, fullName, pointLightArr[i].position);
+
+		snprintf(fullName, sizeof(fullName), "%s.ambient", baseName);
+		setVec3(shaderProgram, fullName, pointLightArr[i].ambient);
+
+		snprintf(fullName, sizeof(fullName), "%s.diffuse", baseName);
+		setVec3(shaderProgram, fullName, pointLightArr[i].diffuse);
+
+		snprintf(fullName, sizeof(fullName), "%s.specular", baseName);
+		setVec3(shaderProgram, fullName, pointLightArr[i].specular);
+
+		snprintf(fullName, sizeof(fullName), "%s.constant", baseName);
+		setFloat(shaderProgram, fullName, pointLightArr[i].constant);
+
+		snprintf(fullName, sizeof(fullName), "%s.linear", baseName);
+		setFloat(shaderProgram, fullName, pointLightArr[i].linear);
+
+		snprintf(fullName, sizeof(fullName), "%s.quadratic", baseName);
+		setFloat(shaderProgram, fullName, pointLightArr[i].quadratic);
+	}
+}
+/*
+
+
+*/

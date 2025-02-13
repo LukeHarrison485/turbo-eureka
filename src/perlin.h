@@ -148,7 +148,7 @@ void writeBMP(const char* filename, int* pixels, int width, int height) {
     fclose(file);
 }
 
-int createPerlinNoise(float cellSize, int width, int height, int seed) {
+int createPerlinNoise(float cellSize, int width, int height, int seed, int octaves, float persistence, float lacunarity) {
     // Sets the seed, used in making a peusdo-random gradient to make it so that the result can be replicated.
     
     // Allocates memory for each of the pixel noise values
@@ -156,13 +156,33 @@ int createPerlinNoise(float cellSize, int width, int height, int seed) {
 
     // Fills values with the perlin noise values used in creating the image.
     for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            // Noise value is created so the value can be scaled to [0, 255]
-            float noise = perlinNoise(x / cellSize, y / cellSize, seed);
-            noise = (noise + 1.0f) * 0.5f * 255.0f; // Scaled to [0, 255]
-            values[y * width + x] = (int)noise;
+    for (int x = 0; x < width; x++) {
+        float totalNoise = 0.0f;
+        float amplitude = 1.0f;
+        float frequency = 1.0f;
+        float maxValue = 0.0f; // For normalization
+
+        for (int octave = 0; octave < octaves; octave++) {
+            // Calculate noise at current frequency/amplitude
+            float noise = perlinNoise(
+                (x / cellSize) * frequency,
+                (y / cellSize) * frequency,
+                seed + octave // Unique seed per octave
+            ) * amplitude;
+
+            totalNoise += noise;
+            maxValue += amplitude;
+
+            // Prepare for next octave
+            amplitude *= persistence;
+            frequency *= lacunarity;
         }
+
+        // Normalize to [0, 1] and scale to [0, 255]
+        totalNoise = (totalNoise / maxValue + 1.0f) * 0.5f * 255.0f;
+        values[y * width + x] = (int)totalNoise;
     }
+}
 
     // Creates a bitmap file for usage in other applications, in terms of this project; The 3D enviroment
     writeBMP("perlin.bmp", values, width, height);

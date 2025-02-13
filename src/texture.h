@@ -10,10 +10,9 @@ enum textureID {
     STONE
 };
 
-
 unsigned int textures[3];
 
-unsigned int loadTexture(char const * path)
+unsigned int loadTexture(char const* path)
 {
     unsigned int textureID;
     glGenTextures(1, &textureID);
@@ -44,9 +43,10 @@ unsigned int loadTexture(char const * path)
 
         stbi_image_free(data);
     }
-    else
-    {
-        stbi_image_free(data);
+    else {
+    fprintf(stderr, "Texture failed to load at path: %s\n", path);
+    glDeleteTextures(1, &textureID); // Clean up the unused texture
+    return 0;
     }
 
     return textureID;
